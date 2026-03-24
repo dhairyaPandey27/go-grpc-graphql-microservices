@@ -1,0 +1,48 @@
+syntax="proto3";
+
+package pb;
+
+option go_package="github.com/dhairyaPandey27/go-grpc-graphql-microservices/account/pb";
+
+message Account{
+  string id=1;
+  string name=2;
+}
+
+message PostAcccountRequest{
+  string name =1;
+}
+
+message PostAcccountResponse{
+  Account account=1;
+}
+
+message GetAccountRequest{
+  string id=1;
+}
+
+message GetAccountResponse{
+  Account account=1;
+}
+
+message GetAccountsRequest{
+  uint64 skip=1;
+  uint64 take=2;
+}
+
+message GetAccountsResponse{
+  repeated Account account=1;
+}
+
+
+service AccountService{
+  rpc PostAccount (PostAcccountRequest) returns (PostAcccountResponse){
+
+  }
+  rpc GetAccount (GetAccountRequest) returns (GetAccountResponse){
+
+  }
+  rpc GetAccounts (GetAccountsRequest) returns (GetAccountsResponse){
+
+  }
+}
