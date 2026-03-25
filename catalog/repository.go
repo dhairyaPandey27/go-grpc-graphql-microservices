@@ -29,7 +29,7 @@ type elasticRepository struct{
 type productDocument struct{
 	Name string `json:"name"`
 	Description string `json:"description"`
-	Price string `json:"price"`
+	Price float64 `json:"price"`
 }
 
 func NewElasticRepository(url string) (Repository,error){
