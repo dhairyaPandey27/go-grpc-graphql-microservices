@@ -95,12 +95,16 @@ func (s *grpcServer) PostOrder(ctx context.Context,r *pb.PostOrderRequest) (*pb.
 		Products: []*pb.Order_OrderProduct{},
 	}
 
-	orderProto.CreatedAt,_=order.CreatedAt.MarshalBinary()
+	orderProto.CreatedAt,err=order.CreatedAt.MarshalBinary()
+	if err!=nil{
+		log.Println("Error creating CreatedAt",err)
+		return nil,errors.New("could not create CreatedAt")		
+	}
 	for _,p:=range order.Products{
 		orderProto.Products=append(orderProto.Products, &pb.Order_OrderProduct{
 			Id: p.ID,
 			Name: p.Name,
-			Description: p.Name,
+			Description: p.Description,
 			Price: p.Price,
 			Quantity: p.Quantity,
 		})
@@ -119,7 +123,7 @@ func (s *grpcServer) GetOrdersForAccount(ctx context.Context,r *pb.GetOrdersForA
 		return nil,err
 	}
 
-	productIDMap := map[string]bool{}
+	productIDMap := map[string]bool{} //creating a map to collect unique productIDs across all orders
 	for _,o:= range accountOrders{
 		for _,p:= range o.Products{
 			productIDMap[p.ID]=true
@@ -145,7 +149,11 @@ func (s *grpcServer) GetOrdersForAccount(ctx context.Context,r *pb.GetOrdersForA
 			TotalPrice: o.TotalPrice,
 			Products: []*pb.Order_OrderProduct{},
 		}
-		op.CreatedAt,_=o.CreatedAt.MarshalBinary()
+		op.CreatedAt,err=o.CreatedAt.MarshalBinary()
+		if err!=nil{
+			log.Println("Error creating CreatedAt",err)
+			return nil,errors.New("could not create CreatedAt")
+		}
 
 		for _,product:=range o.Products{
 			for _,p:= range products{
