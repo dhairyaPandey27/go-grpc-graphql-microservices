@@ -3,8 +3,10 @@ RUN apk --no-cache add gcc g++ make ca-certificates
 WORKDIR /go/src/github.com/dhairyaPandey27/go-grpc-graphql-microservices
 COPY go.mod go.sum ./
 COPY vendor vendor
+COPY account account
 COPY catalog catalog
-RUN GO111MODULE=on go build -mod vendor -o /go/bin/app ./catalog/cmd/catalog
+COPY order order
+RUN GO111MODULE=on go build -mod vendor -o /go/bin/app ./order/cmd/order
 
 FROM alpine:3.23
 WORKDIR /usr/bin
