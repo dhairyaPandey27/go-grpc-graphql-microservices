@@ -11,7 +11,7 @@ import (
 
 type config struct {
 	DatabaseURL string `envconfig:"DATABASE_URL"`
-	AccountURL  string `envconfig:"ACCOUNT_SERVICES_URL"`
+	AccountURL  string `envconfig:"ACCOUNT_SERVICE_URL"`
 	CatalogURL  string `envconfig:"CATALOG_SERVICE_URL"`
 }
 
