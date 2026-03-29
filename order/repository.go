@@ -104,7 +104,7 @@ func (r *postgresRepository) GetOrdersForAccount(ctx context.Context, accountId 
 				AccountID: lastOrder.AccountID,
 				CreatedAt: lastOrder.CreatedAt,
 				TotalPrice: lastOrder.TotalPrice,
-				Products: lastOrder.Products,
+				Products: products,
 			}
 			orders = append(orders, newOrder)
 			products=[]OrderedProduct{}
@@ -116,13 +116,13 @@ func (r *postgresRepository) GetOrdersForAccount(ctx context.Context, accountId 
 		*lastOrder=*order
 	}
 
-	if lastOrder!=nil{
+	if lastOrder.ID!=""{
 		newOrder:=Order{
 			ID: lastOrder.ID,
 			AccountID: lastOrder.AccountID,
 			CreatedAt: lastOrder.CreatedAt,
 			TotalPrice: lastOrder.TotalPrice,
-			Products: lastOrder.Products,
+			Products: products,
 		}
 		orders = append(orders, newOrder)
 	}
